@@ -19,8 +19,8 @@ public class HarryKartServiceTest {
         Assert.assertEquals(result_0.getRanking().get(2).getPosition(), 3);
 
         Assert.assertEquals(result_0.getRanking().get(0).getHorse(), "TIMETOBELUCKY");
-        Assert.assertEquals(result_0.getRanking().get(0).getHorse(), "HERCULES BOKO");
-        Assert.assertEquals(result_0.getRanking().get(0).getHorse(), "CARGO DOOR");
+        Assert.assertEquals(result_0.getRanking().get(1).getHorse(), "HERCULES BOKO");
+        Assert.assertEquals(result_0.getRanking().get(2).getHorse(), "CARGO DOOR");
     }
 
     @Test
@@ -34,8 +34,8 @@ public class HarryKartServiceTest {
         Assert.assertEquals(result_0.getRanking().get(2).getPosition(), 3);
 
         Assert.assertEquals(result_0.getRanking().get(0).getHorse(), "WAIKIKI SILVIO");
-        Assert.assertEquals(result_0.getRanking().get(0).getHorse(), "TIMETOBELUCKY");
-        Assert.assertEquals(result_0.getRanking().get(0).getHorse(), "HERCULES BOKO");
+        Assert.assertEquals(result_0.getRanking().get(1).getHorse(), "TIMETOBELUCKY");
+        Assert.assertEquals(result_0.getRanking().get(2).getHorse(), "HERCULES BOKO");
     }
 
 }

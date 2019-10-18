@@ -6,7 +6,7 @@
 //
 
 
-package se.atg.service.harrykart.models;
+package se.atg.service.harrykart.models.xjc;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;

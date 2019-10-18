@@ -1,7 +1,7 @@
 package se.atg.service.harrykart.utils;
 
-import se.atg.service.harrykart.models.HarryKartType;
-import se.atg.service.harrykart.models.ObjectFactory;
+import se.atg.service.harrykart.models.xjc.HarryKartType;
+import se.atg.service.harrykart.models.xjc.ObjectFactory;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;

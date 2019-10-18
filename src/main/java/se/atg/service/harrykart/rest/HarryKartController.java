@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import se.atg.service.harrykart.HarryKartService;
-import se.atg.service.harrykart.models.*;
+import se.atg.service.harrykart.models.xjc.HarryKartType;
+import se.atg.service.harrykart.models.xjc.ObjectFactory;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;

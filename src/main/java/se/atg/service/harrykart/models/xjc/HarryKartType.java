@@ -6,7 +6,7 @@
 //
 
 
-package se.atg.service.harrykart.models;
+package se.atg.service.harrykart.models.xjc;
 
 import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;

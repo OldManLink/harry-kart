@@ -1,4 +1,4 @@
-package se.atg.service.harrykart.models;
+package se.atg.service.harrykart.models.xjc;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
