@@ -1,20 +1,30 @@
 package se.atg.service.harrykart.rest;
 
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import se.atg.service.harrykart.HarryKartService;
 import se.atg.service.harrykart.models.*;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
 
 @RestController
 @RequestMapping("/api")
 public class HarryKartController {
+
+    final private HarryKartService harryKartService;
+    @Autowired
+    public HarryKartController(HarryKartService harryKartService) {
+        this.harryKartService = harryKartService;
+    }
 
     @RequestMapping(value = "/play",
             method = RequestMethod.POST,
@@ -23,10 +33,9 @@ public class HarryKartController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public String handleXML(@RequestBody String xml) throws JAXBException {
         HarryKartType harryKart;
-        JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
-        harryKart = ((JAXBElement<HarryKartType>) jaxbContext.createUnmarshaller().unmarshal(new StringReader(xml))).getValue();
+        Unmarshaller unmarshaller = JAXBContext.newInstance(ObjectFactory.class).createUnmarshaller();
+        harryKart = ((JAXBElement<HarryKartType>) unmarshaller.unmarshal(new StringReader(xml))).getValue();
 
-        System.out.println(harryKart.toString());
-        return "{\"unmarshalled\": \"" + harryKart.toString() + "\"}";
+        return new JSONObject(harryKartService.computeResult(harryKart)).toString();
     }
 }
