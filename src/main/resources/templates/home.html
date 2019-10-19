@@ -11,13 +11,13 @@
   <body>
     <table width="50%">
       <tr><td align="left">
-        <h3 th:text="${header}"></h3>
+        <h3>Compute top 3 ranking for a Harry Kart race</h3>
       </td></tr>
       <tr>
         <td>
           <form id="playForm" method="post" action="/">
             <p>
-              XML data: <textarea rows="40" cols="40" placeholder="Paste your HarryKart xml data here"></textarea>
+              XML data: <textarea rows="42" cols="42" placeholder="Paste your HarryKart xml data here" th:utext="${xml_example}"></textarea>
             </p>
             <p>
               <input type="submit" value="Submit"/> <input type="reset" value="Reset"/>

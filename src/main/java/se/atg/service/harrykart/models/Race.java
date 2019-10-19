@@ -31,15 +31,15 @@ public class Race {
     }
 
     private List<RacePosition> getRanking(List<RaceTime> raceTimes) {
-        List<RaceTime> topThreeSorted = raceTimes.stream().sorted(Comparator.comparing(RaceTime::getTime))
-                .collect(Collectors.toList()).subList(0, 3);
-        List<RacePosition> ranking = topThreeSorted.stream().map(rt -> new RacePosition(topThreeSorted.indexOf(rt) + 1, rt.getHorse()))
+        List<RaceTime> winnersSorted = raceTimes.stream().sorted(Comparator.comparing(RaceTime::getTime))
+                .collect(Collectors.toList()).subList(0, Math.min(3, raceTimes.size()));
+        List<RacePosition> ranking = winnersSorted.stream().map(rt -> new RacePosition(winnersSorted.indexOf(rt) + 1, rt.getHorse()))
                 .collect(Collectors.toList());
 
         // Fix so that if any horses have the same race time, they also have the same position
-        for (int i = 1 ; i < 3 ; i++) {
-            RaceTime second = topThreeSorted.get(i);
-            RaceTime first = topThreeSorted.get(i - 1);
+        for (int i = 1 ; i < winnersSorted.size() ; i++) {
+            RaceTime second = winnersSorted.get(i);
+            RaceTime first = winnersSorted.get(i - 1);
 
             if (second.getTime().equals(first.getTime())) {
                 ranking.get(i).setPosition(ranking.get(i - 1).getPosition());
@@ -48,7 +48,7 @@ public class Race {
         return ranking;
     }
 
-    public static class RaceTime {
+    private static class RaceTime {
 
         private BigDecimal time;
         private String horse;

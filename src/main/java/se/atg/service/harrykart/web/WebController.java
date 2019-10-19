@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 @Controller
 public class WebController extends WebMvcConfigurerAdapter {
 
@@ -16,7 +21,14 @@ public class WebController extends WebMvcConfigurerAdapter {
 
     @RequestMapping("/")
     public String home(Model model) {
-        model.addAttribute("header", "Compute top 3 ranking for a Harry Kart race");
+        String xmlExample = null;
+        try {
+            //noinspection ConstantConditions
+            xmlExample = new String(Files.readAllBytes(Paths.get(getClass().getClassLoader().getResource("input_0.xml").toURI())));
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("xml_example", xmlExample);
         return "home";
     }
 }

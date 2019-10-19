@@ -35,8 +35,8 @@ public class HarryKartServiceImpl implements HarryKartService {
     }
 
     private Horse getHorse(ParticipantType p, HarryKartType harryKart) {
-        List<BigDecimal> speeds = getPowerUps(p, harryKart)
-                .map(pu ->  pu.add(new BigDecimal(p.getBaseSpeed()))).collect(Collectors.toList());
+        BigDecimal baseSpeed = new BigDecimal(p.getBaseSpeed());
+        List<BigDecimal> speeds = getPowerUps(p, harryKart).map(pu -> pu.add(baseSpeed)).collect(Collectors.toList());
         return new Horse(p.getName(), speeds);
     }
 
@@ -45,6 +45,14 @@ public class HarryKartServiceImpl implements HarryKartService {
                 .mapToObj(i -> getPowerUp(i, p.getLane(), harryKart));
     }
 
+    /**
+     * Return the cumulative PowerUp value for the specified loop number and land number
+     *
+     * @param loopNumber The number of the Loop for which the PowerUp should be fetched
+     * @param laneNumber The number of the Lane for which the PowerUp should be fetched
+     * @param harryKart The HarryKartType object from which the data is to be fetched
+     * @return The calculated PowerUp value as a BigDecimal
+     */
     private BigDecimal getPowerUp(int loopNumber, BigInteger laneNumber, HarryKartType harryKart) {
         LoopType loop = harryKart.getPowerUps().getLoop().stream()
                 .filter(l -> loopNumber == l.getNumber().intValue()).findAny().orElse(new LoopType());
