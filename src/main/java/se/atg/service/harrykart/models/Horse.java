@@ -3,6 +3,9 @@ package se.atg.service.harrykart.models;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static java.math.BigDecimal.ZERO;
+import static java.math.RoundingMode.FLOOR;
+
 public class Horse {
     private String name;
     private List<BigDecimal> speeds;
@@ -20,8 +23,11 @@ public class Horse {
         this.name = name;
     }
 
-    List<BigDecimal> getSpeeds() {
+    private List<BigDecimal> getSpeeds() {
         return speeds;
     }
 
+    BigDecimal getRaceTime(BigDecimal loopLength) {
+        return this.getSpeeds().stream().reduce(ZERO, (sum, speed) -> sum.add(loopLength.divide(speed, FLOOR)));
+    }
 }

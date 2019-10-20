@@ -19,4 +19,11 @@ public class RaceResult implements java.io.Serializable {
     public void setRanking(List<RacePosition> ranking) {
         this.ranking = ranking;
     }
+
+    @Override
+    public String toString() {
+        return "RaceResult {" +
+                "ranking: " + ranking +
+                "}";
+    }
 }

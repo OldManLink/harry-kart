@@ -1,30 +1,23 @@
 package se.atg.service.harrykart.utils;
 
 import se.atg.service.harrykart.models.xjc.HarryKartType;
-import se.atg.service.harrykart.models.xjc.ObjectFactory;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import java.io.File;
-import java.util.Objects;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class TestFileReader {
 
     public static HarryKartType readInputFile(int fileNumber) {
-        HarryKartType harryKart = null;
         String fileName = "input_" + fileNumber + ".xml";
-        File xml = new File(Objects.requireNonNull(TestFileReader.class.getClassLoader().getResource(fileName)).getFile());
-
+        String xmlExample = null;
         try {
-            Unmarshaller unmarshaller = JAXBContext.newInstance(ObjectFactory.class).createUnmarshaller();
-            harryKart = ((JAXBElement<HarryKartType>)  unmarshaller.unmarshal(xml)).getValue();
-
-        } catch (JAXBException e) {
+            //noinspection ConstantConditions
+            xmlExample = new String(Files.readAllBytes(Paths.get(TestFileReader.class.getClassLoader().getResource(fileName).toURI())));
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
-        assert harryKart != null;
-        return harryKart;
+        return new XmlUnmarshaller<HarryKartType>().unmarshall(xmlExample);
     }
 }

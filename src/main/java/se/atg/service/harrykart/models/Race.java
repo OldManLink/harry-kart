@@ -20,14 +20,8 @@ public class Race {
     }
 
     public RaceResult getResult() {
-        List<RaceTime> raceTimes = horses.stream().map(this::getRaceTime).collect(Collectors.toList());
+        List<RaceTime> raceTimes = horses.stream().map(h -> new RaceTime(h.getRaceTime(loopLength), h.getName())).collect(Collectors.toList());
         return new RaceResult(getRanking(raceTimes));
-    }
-
-    private RaceTime getRaceTime(Horse horse) {
-        BigDecimal time = horse.getSpeeds().stream()
-                .reduce(ZERO, (sum, speed) -> sum.add(loopLength.divide(speed, FLOOR)));
-        return new RaceTime(time, horse.getName());
     }
 
     private List<RacePosition> getRanking(List<RaceTime> raceTimes) {

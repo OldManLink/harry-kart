@@ -20,7 +20,7 @@ import static java.math.BigInteger.ZERO;
 import static se.atg.service.harrykart.models.Race.DEFAULT_LOOP_LENGTH;
 
 @Service
-public class HarryKartServiceImpl implements HarryKartService {
+class HarryKartServiceImpl implements HarryKartService {
 
     @Override
     public RaceResult computeResult(HarryKartType harryKart) {
@@ -46,7 +46,7 @@ public class HarryKartServiceImpl implements HarryKartService {
     }
 
     /**
-     * Return the cumulative PowerUp value for the specified loop number and land number
+     * Return the cumulative PowerUp value for the specified loop number and lane number
      *
      * @param loopNumber The number of the Loop for which the PowerUp should be fetched
      * @param laneNumber The number of the Lane for which the PowerUp should be fetched

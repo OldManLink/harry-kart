@@ -27,4 +27,10 @@ public class RacePosition implements java.io.Serializable {
     public void setHorse(String horse) {
         this.horse = horse;
     }
-}
+
+    @Override
+    public String toString() {
+        return "RacePosition {" +
+                "position: " + position + ", " +
+                "horse: \"" + horse + "\"}";
+    }}
