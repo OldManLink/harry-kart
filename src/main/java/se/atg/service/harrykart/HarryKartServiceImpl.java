@@ -13,7 +13,7 @@ import se.atg.service.harrykart.models.xjc.ParticipantType;
 import java.util.List;
 
 @Service
-class HarryKartServiceImpl implements HarryKartService {
+public class HarryKartServiceImpl implements HarryKartService {
     private final static Logger logger = LoggerFactory.getLogger(HarryKartServiceImpl.class);
 
     @Override
@@ -28,6 +28,8 @@ class HarryKartServiceImpl implements HarryKartService {
         final ResultEvaluator evaluator = new ResultEvaluator(race.getRaceTimes());
 
         logger.info("Evaluating RaceResult");
-        return evaluator.getResult();
+        final RaceResult result = evaluator.getResult();
+        logger.info("Returning result {}", result);
+        return result;
     }
 }

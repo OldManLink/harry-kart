@@ -9,15 +9,19 @@ import java.nio.file.Paths;
 
 public class TestFileReader {
 
-    public static HarryKartType readInputFile(final int fileNumber) {
+    public static String readInputFileString(final int fileNumber) {
         final String fileName = "input_" + fileNumber + ".xml";
         try {
             //noinspection ConstantConditions
-            final String xmlExample = new String(Files.readAllBytes(Paths.get(TestFileReader.class.getClassLoader().getResource(fileName).toURI())));
-            return new XmlUnmarshaller<HarryKartType>().unmarshall(xmlExample);
-        } catch (IOException | URISyntaxException e) {
+            return new String(Files.readAllBytes(Paths.get(TestFileReader.class.getClassLoader().getResource(fileName).toURI())));
+        } catch (URISyntaxException | IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static HarryKartType readInputFile(final int fileNumber) {
+        final String xmlExample = readInputFileString(fileNumber);
+        return new XmlUnmarshaller<HarryKartType>().unmarshall(xmlExample);
     }
 }
