@@ -4,44 +4,48 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
-import java.util.stream.Collectors;
+import java.util.List;
 import java.util.stream.Stream;
+
+import static java.math.BigDecimal.TEN;
+import static java.util.stream.Collectors.toList;
+import static se.atg.service.harrykart.models.Race.DEFAULT_LOOP_LENGTH;
 
 public class RaceTest {
 
     @Test
-    public void testGetResult() {
+    public void testGetRaceTimes() {
 
-        Race race = new Race(Race.DEFAULT_LOOP_LENGTH, Stream.of(
-                new Horse("Red Rum", Stream.of(10, 11, 13, 15).map(BigDecimal::valueOf).collect(Collectors.toList())),
-                new Horse("Shergar", Stream.of(10, 12, 12, 15).map(BigDecimal::valueOf).collect(Collectors.toList())),
-                new Horse("Nijinski", Stream.of(10, 13, 11, 14).map(BigDecimal::valueOf).collect(Collectors.toList()))
-        ).collect(Collectors.toList()));
+        final Race race = new Race(DEFAULT_LOOP_LENGTH, Stream.of(
+                new Horse("Red Rum", TEN, Stream.of(0, 1, 2, 2).map(BigDecimal::valueOf).collect(toList())),
+                new Horse("Shergar", TEN, Stream.of(0, 2, 0, 3).map(BigDecimal::valueOf).collect(toList())),
+                new Horse("Nijinski", TEN, Stream.of(0, 3, -2, 3).map(BigDecimal::valueOf).collect(toList()))
+        ).collect(toList()));
 
-        RaceResult expectedResult = new RaceResult( Stream.of(
-                new RacePosition(1, "Shergar"),
-                new RacePosition(2, "Red Rum"),
-                new RacePosition(3, "Nijinski")
-        ).collect(Collectors.toList()));
+        final List<RaceTime> expectedTimes = Stream.of(
+                new RaceTime("Red Rum", BigDecimal.valueOf(334498L, 3)),
+                new RaceTime("Shergar", BigDecimal.valueOf(333332L, 3)),
+                new RaceTime("Nijinski", BigDecimal.valueOf(339260L, 3))
+        ).collect(toList());
 
-        Assert.assertEquals(race.getResult().toString(), expectedResult.toString());
+        Assert.assertEquals(race.getRaceTimes(), expectedTimes);
     }
 
     @Test
-    public void testEveryonesAWinner() {
+    public void testNeckAndNeckTimes() {
 
-        Race race = new Race(Race.DEFAULT_LOOP_LENGTH, Stream.of(
-                new Horse("Red Rum", Stream.of(10, 11, 13, 15).map(BigDecimal::valueOf).collect(Collectors.toList())),
-                new Horse("Shergar", Stream.of(10, 11, 13, 15).map(BigDecimal::valueOf).collect(Collectors.toList())),
-                new Horse("Nijinski", Stream.of(10, 11, 13, 15).map(BigDecimal::valueOf).collect(Collectors.toList()))
-        ).collect(Collectors.toList()));
+        final Race race = new Race(DEFAULT_LOOP_LENGTH, Stream.of(
+                new Horse("Red Rum", TEN, Stream.of(0, 1, 2, 3).map(BigDecimal::valueOf).collect(toList())),
+                new Horse("Shergar", TEN, Stream.of(0, 1, 2, 3).map(BigDecimal::valueOf).collect(toList())),
+                new Horse("Nijinski", TEN, Stream.of(0, 1, 2, 3).map(BigDecimal::valueOf).collect(toList()))
+        ).collect(toList()));
 
-        RaceResult expectedResult = new RaceResult( Stream.of(
-                new RacePosition(1, "Red Rum"),
-                new RacePosition(1, "Shergar"),
-                new RacePosition(1, "Nijinski")
-        ).collect(Collectors.toList()));
+        final List<RaceTime> expectedTimes = Stream.of(
+                new RaceTime("Red Rum", BigDecimal.valueOf(330332L, 3)),
+                new RaceTime("Shergar", BigDecimal.valueOf(330332L, 3)),
+                new RaceTime("Nijinski", BigDecimal.valueOf(330332L, 3))
+        ).collect(toList());
 
-        Assert.assertEquals(race.getResult().toString(), expectedResult.toString());
+        Assert.assertEquals(race.getRaceTimes(), expectedTimes);
     }
 }

@@ -1,63 +1,27 @@
 package se.atg.service.harrykart.models;
 
-import java.math.BigDecimal;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static java.math.BigDecimal.ZERO;
-import static java.math.RoundingMode.FLOOR;
+import java.math.BigDecimal;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 public class Race {
+    private final static Logger logger = LoggerFactory.getLogger(Race.class);
 
-    public static BigDecimal DEFAULT_LOOP_LENGTH = BigDecimal.valueOf(1000000L, 3);
-    private BigDecimal loopLength;
-    private List<Horse> horses;
+    static final BigDecimal DEFAULT_LOOP_LENGTH = BigDecimal.valueOf(1000000L, 3);
+    private final BigDecimal loopLength;
+    private final List<Horse> horses;
 
-    public Race(BigDecimal loopLength, List<Horse> horses) {
+    Race(final BigDecimal loopLength, final List<Horse> horses) {
         this.loopLength = loopLength;
         this.horses = horses;
     }
 
-    public RaceResult getResult() {
-        List<RaceTime> raceTimes = horses.stream().map(h -> new RaceTime(h.getRaceTime(loopLength), h.getName())).collect(Collectors.toList());
-        return new RaceResult(getRanking(raceTimes));
-    }
-
-    private List<RacePosition> getRanking(List<RaceTime> raceTimes) {
-        List<RaceTime> winnersSorted = raceTimes.stream().sorted(Comparator.comparing(RaceTime::getTime))
-                .collect(Collectors.toList()).subList(0, Math.min(3, raceTimes.size()));
-        List<RacePosition> ranking = winnersSorted.stream().map(rt -> new RacePosition(winnersSorted.indexOf(rt) + 1, rt.getHorse()))
-                .collect(Collectors.toList());
-
-        // Fix so that if any horses have the same race time, they also have the same position
-        for (int i = 1 ; i < winnersSorted.size() ; i++) {
-            RaceTime second = winnersSorted.get(i);
-            RaceTime first = winnersSorted.get(i - 1);
-
-            if (second.getTime().equals(first.getTime())) {
-                ranking.get(i).setPosition(ranking.get(i - 1).getPosition());
-            }
-        }
-        return ranking;
-    }
-
-    private static class RaceTime {
-
-        private BigDecimal time;
-        private String horse;
-
-        RaceTime(BigDecimal time, String horse) {
-            this.time = time;
-            this.horse = horse;
-        }
-
-        BigDecimal getTime() {
-            return time;
-        }
-
-        String getHorse() {
-            return horse;
-        }
+    public List<RaceTime> getRaceTimes() {
+        logger.info("Calculating race times");
+        return horses.stream().map(h -> new RaceTime(h.getName(), h.getRaceTime(loopLength))).collect(toList());
     }
 }

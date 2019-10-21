@@ -10,16 +10,18 @@ import java.io.StringReader;
 
 class XmlUnmarshaller<T> {
 
-    T unmarshall(String xml) {
-        Unmarshaller unmarshaller;
-        T result = null;
+    T unmarshall(final String xml) {
         try {
-            unmarshaller = JAXBContext.newInstance(ObjectFactory.class).createUnmarshaller();
-            result = ((JAXBElement<T>)  unmarshaller.unmarshal(new StringReader(xml))).getValue();
-
+            final Unmarshaller unmarshaller = JAXBContext.newInstance(ObjectFactory.class).createUnmarshaller();
+            return asJAXBElement(unmarshaller.unmarshal(new StringReader(xml))).getValue();
         } catch (JAXBException e) {
             e.printStackTrace();
         }
-        return result;
+        return null;
+    }
+
+    private JAXBElement<T> asJAXBElement(Object obj) {
+        //noinspection unchecked
+        return (JAXBElement<T>) obj;
     }
 }

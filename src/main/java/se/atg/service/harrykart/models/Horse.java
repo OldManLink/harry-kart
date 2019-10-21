@@ -1,33 +1,67 @@
 package se.atg.service.harrykart.models;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static java.math.BigDecimal.ZERO;
 import static java.math.RoundingMode.FLOOR;
 
 public class Horse {
-    private String name;
-    private List<BigDecimal> speeds;
+    private final static Logger logger = LoggerFactory.getLogger(Horse.class);
+    private final String name;
+    private final BigDecimal baseSpeed;
+    private final List<BigDecimal> powerUps;
 
-    public Horse(String name, List<BigDecimal> speeds){
+    public Horse(String name, BigDecimal baseSpeed, List<BigDecimal> powerUps){
         this.name = name;
-        this.speeds = speeds;
+        this.baseSpeed = baseSpeed;
+        this.powerUps = powerUps;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    private BigDecimal getBaseSpeed() {
+        return baseSpeed;
     }
 
-    private List<BigDecimal> getSpeeds() {
-        return speeds;
+    private List<BigDecimal> getPowerUps() {
+        return powerUps;
     }
 
-    BigDecimal getRaceTime(BigDecimal loopLength) {
-        return this.getSpeeds().stream().reduce(ZERO, (sum, speed) -> sum.add(loopLength.divide(speed, FLOOR)));
+    private BigDecimal getPowerUp(int i) {
+        return getPowerUps().get(i);
     }
-}
+
+    private int getPowerUpsCount() {
+        return getPowerUps().size();
+    }
+
+    BigDecimal getRaceTime(final BigDecimal loopLength) {
+        logger.info("Calculating race time for {}", this);
+        Stream<BigDecimal> speeds = this.getCumulativePowerUps().map(pu -> pu.add(this.getBaseSpeed()));
+        return speeds.reduce(ZERO, (sum, speed) -> sum.add(loopLength.divide(speed, FLOOR)));
+    }
+
+    private Stream<BigDecimal> getCumulativePowerUps() {
+        return IntStream.range(0, getPowerUpsCount()).mapToObj(this::getCumulativePowerUp);
+    }
+
+    private BigDecimal getCumulativePowerUp(final int i) {
+        return i == 0 ? getPowerUp(i) : getPowerUp(i).add(getCumulativePowerUp(i - 1));
+    }
+
+    @Override
+    public String toString() {
+        return "Horse {" +
+                "name: \"" + name + "\", " +
+                "baseSpeed: " + baseSpeed + ", " +
+                "powerUps: " + powerUps +
+                "}";
+    }}

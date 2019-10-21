@@ -1,9 +1,10 @@
 package se.atg.service.harrykart.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.io.IOException;
@@ -13,22 +14,18 @@ import java.nio.file.Paths;
 
 @Controller
 public class WebController extends WebMvcConfigurerAdapter {
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("home");
-    }
+    private final static Logger logger = LoggerFactory.getLogger(WebController.class);
 
     @RequestMapping("/")
-    public String home(Model model) {
-        String xmlExample = null;
+    public String home(final Model model) {
         try {
             //noinspection ConstantConditions
-            xmlExample = new String(Files.readAllBytes(Paths.get(getClass().getClassLoader().getResource("input_0.xml").toURI())));
+            final String xmlExample = new String(Files.readAllBytes(Paths.get(getClass().getClassLoader().getResource("input_0.xml").toURI())));
+            model.addAttribute("xml_example", xmlExample);
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
-        model.addAttribute("xml_example", xmlExample);
+        logger.info("Serving up home page \"Submit Harry Kart\"");
         return "home";
     }
 }
