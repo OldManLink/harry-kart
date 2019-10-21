@@ -7,7 +7,7 @@ public class RacePosition implements java.io.Serializable {
     private final String horse;
     private final int position;
 
-    public RacePosition(String horse, int position) {
+    public RacePosition(final String horse, final int position) {
         this.horse = horse;
         this.position = position;
     }
@@ -21,12 +21,11 @@ public class RacePosition implements java.io.Serializable {
     }
 
     @Override
-    public boolean equals(final Object obj){
+    public boolean equals(final Object obj) {
         if (null == obj) return false;
         if (this.getClass() != obj.getClass()) return false;
         RacePosition other = (RacePosition) obj;
-        if (this.getPosition() != other.getPosition()) return false;
-        return this.getHorse().equals(other.getHorse());
+        return this.getPosition() == other.getPosition() && this.getHorse().equals(other.getHorse());
     }
 
     @Override

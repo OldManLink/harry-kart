@@ -7,7 +7,7 @@ public class RaceResult implements java.io.Serializable {
 
     private final List<RacePosition> ranking;
 
-    public RaceResult(List<RacePosition> ranking) {
+    public RaceResult(final List<RacePosition> ranking) {
         this.ranking = ranking;
     }
 
@@ -16,7 +16,7 @@ public class RaceResult implements java.io.Serializable {
     }
 
     @Override
-    public boolean equals(Object obj){
+    public boolean equals(final Object obj){
         if (null == obj) return false;
         if (this.getClass() != obj.getClass()) return false;
         RaceResult other = (RaceResult) obj;

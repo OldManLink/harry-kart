@@ -10,7 +10,7 @@ import java.io.StringReader;
 
 class XmlUnmarshaller<T> {
 
-    T unmarshall(final String xml) {
+    T unmarshal(final String xml) {
         try {
             final Unmarshaller unmarshaller = JAXBContext.newInstance(ObjectFactory.class).createUnmarshaller();
             return asJAXBElement(unmarshaller.unmarshal(new StringReader(xml))).getValue();

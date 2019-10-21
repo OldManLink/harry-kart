@@ -11,13 +11,13 @@ import java.util.stream.Stream;
 import static java.math.BigDecimal.ZERO;
 import static java.math.RoundingMode.FLOOR;
 
-public class Horse {
+class Horse {
     private final static Logger logger = LoggerFactory.getLogger(Horse.class);
     private final String name;
     private final BigDecimal baseSpeed;
     private final List<BigDecimal> powerUps;
 
-    public Horse(String name, BigDecimal baseSpeed, List<BigDecimal> powerUps){
+    Horse(final String name, final BigDecimal baseSpeed, final List<BigDecimal> powerUps){
         this.name = name;
         this.baseSpeed = baseSpeed;
         this.powerUps = powerUps;
@@ -64,4 +64,5 @@ public class Horse {
                 "baseSpeed: " + baseSpeed + ", " +
                 "powerUps: " + powerUps +
                 "}";
-    }}
+    }
+}

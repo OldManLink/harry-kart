@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class HarryKartApp {
     private final static Logger logger = LoggerFactory.getLogger(HarryKartApp.class);
     public static void main(final String ... args) {
-        logger.info("Starting HarryKartApp application with args \"{}\"", args);
+        logger.info("Starting HarryKartApp application with args \"{}\"", new Object[]{args});
         SpringApplication.run(HarryKartApp.class, args);
     }
 }

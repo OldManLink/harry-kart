@@ -8,7 +8,7 @@ public class RaceTime {
     private final String horse;
     private final BigDecimal time;
 
-    public RaceTime(String horse, BigDecimal time) {
+    public RaceTime(final String horse, final BigDecimal time) {
         this.horse = horse;
         this.time = time;
     }
@@ -22,12 +22,11 @@ public class RaceTime {
     }
 
     @Override
-    public boolean equals(Object obj){
+    public boolean equals(final Object obj) {
         if (null == obj) return false;
         if (this.getClass() != obj.getClass()) return false;
         RaceTime other = (RaceTime) obj;
-        if (!Objects.equals(this.getHorse(), other.getHorse())) return false;
-        return Objects.equals(this.getTime(), other.getTime());
+        return Objects.equals(this.getHorse(), other.getHorse()) && Objects.equals(this.getTime(), other.getTime());
     }
 
     @Override

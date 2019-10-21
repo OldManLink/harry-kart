@@ -24,6 +24,5 @@ public class RacePositionTest {
     @Test
     public void testHashCode() {
         Assert.assertEquals(first.hashCode(), second.hashCode());
-        Assert.assertNotEquals(first.hashCode(), time.hashCode());
     }
 }

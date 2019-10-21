@@ -18,6 +18,7 @@ public class RaceResultTest {
     public void testEquals() {
         //noinspection Simplifiable
         Assert.assertTrue(first.equals(second));
+        Assert.assertFalse(first.equals(third));
         Assert.assertFalse(first.equals(null));
         Assert.assertFalse(first.equals(time));
     }
@@ -25,6 +26,5 @@ public class RaceResultTest {
     @Test
     public void testHashCode() {
         Assert.assertEquals(first.hashCode(), second.hashCode());
-        Assert.assertNotEquals(first.hashCode(), time.hashCode());
     }
 }

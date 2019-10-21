@@ -22,6 +22,6 @@ public class TestFileReader {
 
     public static HarryKartType readInputFile(final int fileNumber) {
         final String xmlExample = readInputFileString(fileNumber);
-        return new XmlUnmarshaller<HarryKartType>().unmarshall(xmlExample);
+        return new XmlUnmarshaller<HarryKartType>().unmarshal(xmlExample);
     }
 }
